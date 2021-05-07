@@ -25,6 +25,10 @@ app.use(cors());
 
 //user
 
+app.get("/test", (req, res) => {
+  res.json({ msg: "Heroku app deployment" });
+});
+
 app.post("/user", async (req, res) => {
   // res.json({ msg: "hello" });
   // console.log(req.body);
