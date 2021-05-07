@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
 const express = require("express");
 const cors = require("cors");
 const {
@@ -12,7 +16,7 @@ const {
 } = require("./handler");
 const { User, Tweet, Like } = require("./Model");
 
-const PORT = 8000;
+const PORT = process.env.PORT;
 //middleware
 const app = express();
 
