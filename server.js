@@ -7,6 +7,7 @@ const cors = require("cors");
 const {
   createUser,
   getUsers,
+  checkCredentials,
   createTweet,
   getTweets,
   createLike,
@@ -24,14 +25,7 @@ app.use(express.json());
 app.use(cors());
 
 //user
-
-app.get("/test", (req, res) => {
-  res.json({ msg: "Heroku app deployment" });
-});
-
 app.post("/user", async (req, res) => {
-  // res.json({ msg: "hello" });
-  // console.log(req.body);
   const user = await createUser(req.body);
   console.log(user);
   res.status(201).json(user);
@@ -58,6 +52,12 @@ app.delete("/user/:id", async (req, res) => {
   res.json({ msg: "user deleted" });
 });
 
+//login
+app.post("/login", async (req, res) => {
+  const login = await checkCredentials(req.body);
+  res.json(login);
+});
+
 // Tweets
 app.post("/tweet", async (req, res) => {
   const tweet = await createTweet(req.body);
@@ -69,15 +69,6 @@ app.get("/tweets", async (req, res) => {
   const tweets = await getTweets(username, id);
   res.json(tweets);
 });
-
-// app.get("/tweet/:id", async (req, res) => {
-//   let { id } = req.params;
-//   const tweet = await Tweet.findOne({
-//     where: { id },
-//   });
-//   console.log(tweet);
-//   res.json(tweet);
-// });
 
 app.delete("/tweet/:id", async (req, res) => {
   let { id } = req.params;
@@ -125,6 +116,10 @@ app.delete("/like/:tweetId", async (req, res) => {
 //   console.log(follower);
 //   res.json({ msg: "Follower deleted" });
 // });
+
+app.get("/test", (req, res) => {
+  res.json({ msg: "Heroku app deployment" });
+});
 
 app.listen(PORT, () => {
   console.log(`server stated on ${PORT}`);

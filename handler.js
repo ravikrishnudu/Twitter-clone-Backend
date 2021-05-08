@@ -10,6 +10,15 @@ async function getUsers() {
   const users = await User.findAll();
   return users;
 }
+//login
+async function checkCredentials(body) {
+  let { username, password } = body;
+  const user = await User.findOne({ where: { username } });
+  if (password === user.password) {
+    return user;
+  }
+}
+
 // Tweets
 async function createTweet(data) {
   const tweet = await Tweet.create(data);
@@ -30,11 +39,6 @@ async function getTweets(username, id) {
   console.log(tweets);
   return tweets.map((tweet) => tweet.toJSON());
 }
-
-// async function getTweets() {
-//   const tweets = await Tweet.findone({ where: { username: "ravi" } });
-//   return tweets;
-// }
 
 //Likes
 async function createLike(data) {
@@ -60,6 +64,7 @@ async function getFollowers() {
 module.exports = {
   createUser,
   getUsers,
+  checkCredentials,
   createTweet,
   getTweets,
   createLike,
